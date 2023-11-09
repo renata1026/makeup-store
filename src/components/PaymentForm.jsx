@@ -1,8 +1,6 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import React, { useState } from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid',
@@ -40,8 +38,8 @@ export default function PaymentForm() {
       try {
         const { id } = paymentMethod;
         const response = await axios.post('http://localhost:4000/payment', {
-          amount: 1000,
-          id,
+          amount: '100',
+          id: id,
         });
 
         if (response.data.success) {
@@ -58,7 +56,6 @@ export default function PaymentForm() {
 
   return (
     <div className="wrapper">
-      <Navbar />
       <div className="stripe">
         <h1 className="checkout text-white">Stripe Checkout</h1>
         {!success ? (
@@ -68,16 +65,11 @@ export default function PaymentForm() {
                 <CardElement options={CARD_OPTIONS} />
               </div>
             </fieldset>
-            <button type="submit" className="pay">
-              Pay
-            </button>
+            <button id="stripe-button">Pay</button>
           </form>
         ) : (
           <div>
-            <h2>
-              You just bought a sweet spatula congrats this is the best decision
-              of you're life
-            </h2>
+            <h2 className="text-white">Thank you for your order!</h2>
           </div>
         )}
       </div>

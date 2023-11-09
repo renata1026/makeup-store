@@ -1,15 +1,18 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import Stripe from 'stripe';
+import stripeLibrary from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-dotenv.config();
+const stripe = new stripeLibrary(process.env.STRIPE_SECRET_KEY);
+console.log(
+  'Stripe API Key:',
+  'sk_test_51KXLsbDRDZG7uUNLQH7GhFfVlhGB2HghmuXlPfSeKCK68BK8SV7K5gfMTdqrA5y86ZvTLUtDELtqHcWrjtkBowcj00vsta1pjY'
+);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 4000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -38,6 +41,6 @@ app.post('/payment', async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 4000, () => {
-  console.log('Server is listening on port 4000');
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });
